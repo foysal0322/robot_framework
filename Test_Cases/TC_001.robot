@@ -1,21 +1,20 @@
 *** Settings ***
-Documentation     A test suite for valid login.
-...
-...               Keywords are imported from the resource file
-Resource          keywords.resource
-Default Tags      positive
+Library  SeleniumLibrary
+
+*** Variables ***
 
 *** Test Cases ***
-Login User with Password
-    Connect to Server
-    Login User            ironman    1234567890
-    Verify Valid Login    Tony Stark
-    [Teardown]    Close Server Connection
+Login Test
+    Open Browser  https://triplechoice.mediusware.xyz/  chrome
+    Maximize Browser Window
+    Click Link   Sign In
+    Input Text  name:username  user@gmail.com
+    Input Text  name:password  testpass1234
+    Click Button  Sign in
+    Page Should Contain  Requests
+    Sleep  3s
+    Close All Browsers
 
-Denied Login with Wrong Password
-    [Tags]    negative
-    Connect to Server
-    Run Keyword And Expect Error    *Invalid Password    Login User    ironman    123
-    Verify Unauthorised Access
-    [Teardown]    Close Server Connection
+
+
 
